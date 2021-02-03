@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpine API</title>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.0/dist/alpine.min.js" defer></script>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css">
+    <style>
+        h1 {
+            font-size: 42px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+        }
+
+        .btn:hover {
+            color: black;
+        }
+
+        .btn:focus {
+            outline: none;
+        }
+
+        .lds-facebook {
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+
+        .lds-facebook div {
+            display: inline-block;
+            position: absolute;
+            left: 8px;
+            width: 16px;
+            background: black;
+            animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+        }
+
+        .lds-facebook div:nth-child(1) {
+            left: 8px;
+            animation-delay: -0.24s;
+        }
+
+        .lds-facebook div:nth-child(2) {
+            left: 32px;
+            animation-delay: -0.12s;
+        }
+
+        .lds-facebook div:nth-child(3) {
+            left: 56px;
+            animation-delay: 0;
+        }
+
+        @keyframes lds-facebook {
+            0% {
+                top: 8px;
+                height: 64px;
+            }
+
+            50%,
+            100% {
+                top: 24px;
+                height: 32px;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <main class="container mx-auto">
+        <h1 class="text-center font-bold font-mono antialiased ">The Rick and Morty API</h1>
+        <div x-data="main()" x-init="fetchToAPI(api)">
+            <div class="characters-list flex flex-wrap justify-center content-center">
+                <template x-if="!isLoad" x-for="character in characters">
+                    <div class="character-item shadow-md hover:shadow-lg m-2.5 rounded-lg overflow-hidden w-64">
+                        <img x-bind:src="character.image" x-bind:alt="character.name">
+                        <div class="p-2">
+                            <p x-text="character.species" class="text-red-500 font-semibold"></p>
+                            <h4 x-text="character.name" class="font-bold text-xl font-mono"></h4>
+                            <p class="font-light text-sm">Origen: <span x-text="character.origin.name"></span></p>
+                        </div>
+                    </div>
+                </template>
+                <template x-if="isLoad">
+                    <div class="lds-facebook">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </template>
+            </div>
+            <nav class="flex justify-between py-4 px-20">
+                <div>
+                    <p class="font-bold text-lg">Navegar</p>
+                </div>
+                <div>
+                    <template x-if="prev != null">
+                        <button x-on:click="fetchToAPI(prev)"
+                            class="bg-gray-800 hover:bg-gray-100 focus:ring-gray-600 focus:ring-2 text-white font-semibold rounded-lg shadow-md btn">
+                            Anterior
+                        </button>
+                    </template>
+                    <template x-if="next != null">
+                        <button x-on:click="fetchToAPI(next)"
+                            class="bg-gray-800 hover:bg-gray-100 focus:ring-gray-600 focus:ring-2 text-white font-semibold rounded-lg shadow-md btn">
+                            Siguiente
+                        </button>
+                    </template>
+                </div>
+            </nav>
+        </div>
+    </main>
+    <footer class="p-4">
+        <p class="text-center">Esto se realizó utilizando <a href="https://github.com/alpinejs/alpine" target="_blank"
+                class="text-blue-500 hover:underline" rel="noopener noreferrer">AlpineJS</a> y la API de <a
+                href="https://rickandmortyapi.com/" class="text-blue-500 hover:underline" target="_blank"
+                rel="noopener noreferrer">Rick and Morty</a> | Desarrollado por <a class="text-blue-500 hover:underline"
+                href="https://twitter.com/FrenrihrCode" target="_blank">@FrenrihrCode</a></p>
+    </footer>
+    <script src="./main.js"></script>
+</body>
+
+</html>
